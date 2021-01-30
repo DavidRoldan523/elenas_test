@@ -38,8 +38,32 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
+    'django_filters',
+
     'elenasapp',
+    'authentication',
 ]
+
+MIDDLEWARE = (
+    'utils.middleware.HealthCheckMiddleware',
+)
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'authentication.backends.JWTAuthentication',
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.JSONParser',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'utils.pagination.BasicPagination',
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    'PAGE_SIZE': 5
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -118,6 +142,10 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# JWT
+JWT_SECRET_KEY=str(os.environ.get('JWT_SECRET_KEY'))
+TOKEN_ROOT=os.environ.get('TOKEN')
 
 
 # Static files (CSS, JavaScript, Images)

@@ -6,9 +6,9 @@ from elenasapp import models
 
 @admin.register(models.Employer)
 class EmployerAdmin(admin.ModelAdmin):
-    list_display = ('owner', 'name', 'user_id', 'updated_at', 'created_at')
+    list_display = ('owner', 'name', 'updated_at', 'created_at')
 
 
 @admin.register(models.Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'employer', 'updated_at', 'created_at')
+    list_display = ('title', 'description', 'employer', 'completed', 'updated_at', 'created_at')

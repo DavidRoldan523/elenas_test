@@ -26,7 +26,7 @@ class EmployerSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        user = User.objects.get(username='elenas')
+        user = User.objects.filter().last()
         validated_data['owner'] = user
         return super().create(validated_data)
 
@@ -35,9 +35,14 @@ class TaskSerializer(serializers.ModelSerializer):
     employer = EmployerBasicSerializer(
         many=False, read_only=True)
     employer_id = serializers.PrimaryKeyRelatedField(
-        source='employer', many=False, queryset=models.Employer.objects.all(), write_only=True)
+        source='employer', many=False, read_only=True)
 
     class Meta:
         model = models.Task
         fields = '__all__'
+
+    def create(self, validated_data):
+        user = models.Employer.objects.get(owner__username=self.context.get('request').user.username)
+        validated_data['employer'] = user
+        return super().create(validated_data)
 

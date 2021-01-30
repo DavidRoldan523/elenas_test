@@ -16,21 +16,14 @@ class Employer(models.Model):
 
     def __str__(self):
         return self.name
-
-    @property
-    def is_authenticated(self):
-        return bool(self._token)
-
-    @property
-    def user_id(self):
-        return self._token.get('user_id', None) if hasattr(self, '_token') else None
-
+        
 
 class Task(models.Model):
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=100)
     employer = models.ForeignKey(Employer, models.SET_NULL, null=True,
                                  blank=True, related_name="tasks", help_text="task_id")
+    completed = models.BooleanField(default=False)                                
     updated_at = models.DateTimeField('Updated at', auto_now=True)
     created_at = models.DateTimeField('Created at', auto_now_add=True)
 
@@ -40,3 +33,11 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+    def check_owner(self, task, user):
+        print(task.employer.owner.username)
+
+        print(user.username)
+        if task.employer.owner.username == user.username:
+            return True
+        return False
