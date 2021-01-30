@@ -10,13 +10,22 @@ from . import models
 from . import serializers
 
 
-class UserViewSet(ModelViewSet):
+class EmployerViewSet(ModelViewSet):
     # permission_classes = [IsAuthenticated]
-    serializer_class = serializers.UserSerializer
-    queryset = models.User.objects.all()
+    serializer_class = serializers.EmployerSerializer
+    queryset = models.Employer.objects.exclude(owner__username='root')
 
     def get_queryset(self):
-        return self.queryset.filter(site_id=self.request.user.site_id)
+        return self.queryset.filter()
+
+
+class TaskViewSet(ModelViewSet):
+    # permission_classes = [IsAuthenticated]
+    serializer_class = serializers.TaskSerializer
+    queryset = models.Task.objects.all()
+
+    def get_queryset(self):
+        return self.queryset.filter()
 
 
 @api_view(['GET'])

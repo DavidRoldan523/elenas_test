@@ -4,5 +4,6 @@ from . import views
 
 
 urlpatterns = [
-    path('users/', views.UserViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('employers/', views.EmployerViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('tasks/', views.TaskViewSet.as_view({'get': 'list', 'post': 'create'})),
 ]
