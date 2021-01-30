@@ -1,4 +1,6 @@
 *.pyc
+!**/__pycache__/
+!**/migrations/
 
 ## Directory-based project format
 .idea/

@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'elenasTest.urls'
+ROOT_URLCONF = 'elenasTest.core.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'elenasTest.wsgi.application'
+WSGI_APPLICATION = 'elenasTest.core.wsgi.application'
 
 
 # Database
