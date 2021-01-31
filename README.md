@@ -1,6 +1,6 @@
 # -------------------------ELENAS TEST---------------------------------
 
-#### PLEASE README!
+#### PLEASE README! Using **main** branch
 
 ### STACK USED
 
