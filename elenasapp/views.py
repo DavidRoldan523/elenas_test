@@ -35,23 +35,46 @@ class TaskViewSet(ModelViewSet, BasicPaginationHandlerMixin):
     def get_queryset(self):
         return self.queryset.filter()
 
+    def __customize_errors(self, code, user=None):
+        customize_error = {
+            'unauthorized_action': {
+                'status': status.HTTP_401_UNAUTHORIZED,
+                'body': {'error': f'{user.username} not have permissions'}
+            },
+            'required_fields': {
+                'status': status.HTTP_400_BAD_REQUEST,
+                'body': {'error': 'Missing field(s)' }
+            }
+        }
+        return customize_error[code]
+
     def update(self, request, *args, **kwargs):
         task = self.get_object()
 
         if request.data:
-            if task.check_owner(task, self.request.user):
+            if task.check_owner(task, request.user):
                 serializer = self.get_serializer(
                     task, data=request.data, partial=True)
                 serializer.is_valid(raise_exception=True)
                 serializer.save()
                 response = Response(serializer.data, status=status.HTTP_200_OK)
             else:
-                response = Response({'error': 'Unauthorized action'},
-                                    status=status.HTTP_401_UNAUTHORIZED)
+                response = self.__customize_errors('unauthorized_action', request.user)
         else:
-            response = Response({'error': 'Missing field(s)'},
-                                status=status.HTTP_400_BAD_REQUEST)
-        return response
+            response = self.__customize_errors('required_fields')
+
+        if not 'body' in response:
+            return response
+        return Response(response['body'], response['status'])
+
+    def destroy(self, request, *args, **kwargs):
+        task = self.get_object()
+
+        if not task.check_owner(task, request.user):
+            response = self.__customize_errors('unauthorized_action', request.user)
+            return Response(response['body'], response['status'])
+        task.delete()
+        return Response(status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
