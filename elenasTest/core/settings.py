@@ -96,9 +96,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'elenasTest.core.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
+# VARIABLES DUMMY ONLY FOR TEST MODE
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

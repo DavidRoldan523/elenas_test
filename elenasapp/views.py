@@ -3,7 +3,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.serializers import BaseSerializer
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from utils.pagination import BasicPagination, BasicPaginationHandlerMixin
 from rest_framework.filters import SearchFilter, OrderingFilter
